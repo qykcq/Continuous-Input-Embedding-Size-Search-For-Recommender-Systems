@@ -318,8 +318,8 @@ def train_ddpg(_lambda, base_model, dataset, noise_type, visualisation=True):
                 )
 
         # data visualisation
-        if ep == config.M - 1 and visualisation:
-            visualise_data(rl_history)
+        # if ep == config.M - 1 and visualisation:
+        #    visualise_data(rl_history)
 
     return sparsity_goals
 
