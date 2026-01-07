@@ -1,5 +1,5 @@
 import numpy as np
-import model.Configurations as config
+import Configurations as config
 import torch
 import torch.nn as nn
 
