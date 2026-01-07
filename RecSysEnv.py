@@ -1,10 +1,10 @@
 import sys
 import numpy as np
-from model.base_models.LightGCN import LightGCN
-from model.base_models.NGCF import NGCF
-from model.base_models.MLP import MLP
-from model.base_models.NCF import NeuMF
-import model.Configurations as config
+from base_models.LightGCN import LightGCN
+from base_models.NGCF import NGCF
+from base_models.MLP import MLP
+from base_models.NCF import NeuMF
+import Configurations as config
 import torch.optim as optim
 import torch
 
