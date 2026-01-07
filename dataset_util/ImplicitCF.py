@@ -56,7 +56,7 @@ class ImplicitCF(object):
         self.dataset_type = dataset
 
         if dataset == 'ml-1m':
-            filename = 'C:/Users/s4463160/Documents/data/ml-1m/ratings.dat'
+            filename = '../ml-1m/ratings.dat'
             header = ['userID', 'itemID', 'rating', 'timestamp']
             dtypes = {h: np.int32 for h in header}
             df = pd.read_csv(
