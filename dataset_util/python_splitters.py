@@ -3,7 +3,7 @@
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split as sk_split
-import model.Configurations as config
+import Configurations as config
 
 from model.dataset_util.split_utils import (
     process_split_ratio,
