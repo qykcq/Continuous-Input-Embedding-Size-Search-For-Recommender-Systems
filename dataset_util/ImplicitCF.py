@@ -2,11 +2,11 @@ import random
 import numpy as np
 import pandas as pd
 import scipy.sparse as sp
-from model.dataset_util.python_splitters import python_stratified_split
+from dataset_util.python_splitters import python_stratified_split
 from collections import Counter
 import torch
 import pickle
-import model.Configurations as config
+import Configurations as config
 
 
 def construct_dict(filename, user_set, item_set):
