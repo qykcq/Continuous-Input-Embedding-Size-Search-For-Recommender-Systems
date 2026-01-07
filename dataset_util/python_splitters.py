@@ -5,7 +5,7 @@ import pandas as pd
 from sklearn.model_selection import train_test_split as sk_split
 import Configurations as config
 
-from model.dataset_util.split_utils import (
+from dataset_util.split_utils import (
     process_split_ratio,
     min_rating_filter_pandas,
     split_pandas_data_with_ratios,
