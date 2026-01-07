@@ -8,7 +8,6 @@ _lambda = 0.01
 # run the following to train the RL policy and produce embedding sizes
 assert config.STATE_SIZE == 3
 assert config.MIN_EMB_SIZE == 1
-assert config.RANDOM_WALK
 assert config.MAX_PATIENCE == 2
 assert config.SAMPLING_RATIO_USER == 1.0
 assert config.SAMPLING_RATIO_ITEM == 1.0
