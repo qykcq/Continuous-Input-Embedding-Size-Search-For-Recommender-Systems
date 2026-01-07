@@ -2,7 +2,7 @@ import numpy as np
 import torch
 from ActorCritic import Actor, CriticTD
 from dataset_util.ImplicitCF import ImplicitCF
-import model.Configurations as config
+import Configurations as config
 from Buffer import Buffer, normalise_actions
 from RecSysEnv import RecSysEnv
 from Graph import Graph
