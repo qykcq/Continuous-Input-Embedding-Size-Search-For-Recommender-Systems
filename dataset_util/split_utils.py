@@ -4,7 +4,7 @@
 import numpy as np
 import math
 import logging
-import model.Configurations as config
+import Configurations as config
 
 logger = logging.getLogger(__name__)
 
