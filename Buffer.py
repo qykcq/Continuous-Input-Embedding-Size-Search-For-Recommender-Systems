@@ -113,8 +113,6 @@ class Buffer:
 
             print('actor loss = {:.4f}, critic loss = {:.4}'.format(actor_loss.item(), critic_loss.item()))
 
-        print('actor loss = {:.4f}, critic loss = {:.4f}'.format(actor_loss.item(), critic_loss.item()))
-
         # soft updates
         self.update_target([(self.target_critic, self.critic_model)], config.TAU)
 
