@@ -1,7 +1,7 @@
 from CIESS import train_ddpg, initialize_dataset
 import Configurations as config
 
-model = 'ngcf'
+model = 'lightgcn'
 noise = 'normal'
 _lambda = 0.01
 
