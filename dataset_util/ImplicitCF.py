@@ -64,8 +64,8 @@ class ImplicitCF(object):
             )
 
         elif dataset == 'yelp':
-            train_file = '../data/yelp/train.txt'
-            test_file = '../data/yelp/test.txt'
+            train_file = 'yelp/train.txt'
+            test_file = 'yelp/test.txt'
 
             train, user_set, item_set = construct_dict(train_file, set(), set())
             test, user_set, item_set = construct_dict(test_file, user_set, item_set)
