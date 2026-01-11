@@ -11,7 +11,7 @@ assert config.MIN_EMB_SIZE == 1
 assert config.MAX_PATIENCE == 2
 assert config.SAMPLING_RATIO_USER == 1.0
 assert config.SAMPLING_RATIO_ITEM == 1.0
-data = initialize_dataset(model, 'ml-1m')
+data = initialize_dataset(model, 'yelp')
 goals = train_ddpg(_lambda=_lambda, base_model=model, visualisation=True, noise_type=noise, dataset=data)
 data.switch_to_test_mode()
 
