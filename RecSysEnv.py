@@ -258,7 +258,7 @@ class RecSysEnv:
                 self.optimizer.param_groups[0]['lr'] = max(self.min_lr, 0.9 * self.optimizer.param_groups[0]['lr'])
 
             if (e + 1) % 2000 == 0 and verbose == 1:
-                print('Epoch %d: [%.5f = %.5f + %.5f]' % (e, loss, mf_loss, emb_loss))
+                print('Epoch %d/%d: [%.5f = %.5f + %.5f]' % (e, batches, loss, mf_loss, emb_loss))
                 #     print("Adjusting LR to ", self.optimizer.param_groups[0]['lr'])
         val = self.eval_rec(sampled_users, sampled_items)
         return val
