@@ -165,6 +165,7 @@ class ImplicitCF(object):
 
     # （num_users x num_items)
     def get_y_true(self, positive_pairs):
+        print('creating y true')
         y_true = np.zeros((len(self.user_vocab), len(self.item_vocab)), dtype=np.int32)
         X_ranking = [
             np.repeat(self.user_vocab, len(self.item_vocab)),
