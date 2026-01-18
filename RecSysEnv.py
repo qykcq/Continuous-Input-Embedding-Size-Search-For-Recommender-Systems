@@ -80,8 +80,8 @@ class RecSysEnv:
             self.agent = LightGCN(dataset, self.user_sizes, self.item_sizes, retrain=retrain).to(config.device)
             self.decay_batches = 200
             self.n_batches = 2000
-            if self.dataset.dataset_type == 'yelp':
-                self.n_batches = 4000
+            # if self.dataset.dataset_type == 'yelp':
+            #     self.n_batches = 4000
             self.min_lr = 1e-3
             self.max_lr = 0.03
         elif base_model == 'mlp':
