@@ -220,7 +220,7 @@ def train_ddpg(_lambda, base_model, dataset, noise_type, visualisation=True):
     env = RecSysEnv(dataset, _lambda, base_model)
 
     # pretrain models
-    pretrain_recsys(env, dataset)
+    # pretrain_recsys(env, dataset)
 
     # networks for the user
     actor_model_u = Actor().to(config.device)
