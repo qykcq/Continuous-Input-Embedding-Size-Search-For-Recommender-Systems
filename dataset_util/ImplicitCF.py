@@ -103,7 +103,7 @@ class ImplicitCF(object):
             except:
                 with open('y_true_{}_{}.pkl'.format(dataset, config.SEED), 'wb') as f:
                     self.y_true = self.get_y_true(self.positive_validation_pairs)
-                    pickle.dump(self.y_true, f, protocol=pickle.HIGHEST_PROTOCOL)
+                    # pickle.dump(self.y_true, f, protocol=pickle.HIGHEST_PROTOCOL)
         else:
             self.y_true = self.get_y_true(self.positive_validation_pairs)
 
