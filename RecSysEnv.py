@@ -91,7 +91,7 @@ class RecSysEnv:
             self.min_lr = 1e-3
             self.max_lr = 0.03
             wd = 1e-5
-        elif base_model == 'ncf':
+        else:  # ncf
             self.agent = NeuMF(dataset, self.user_sizes, self.item_sizes).to(config.device)
             self.decay_batches = 50  
             self.n_batches = 1500
@@ -99,7 +99,7 @@ class RecSysEnv:
                 self.n_batches = 3000
             self.min_lr = 1e-4  # do not change!
             self.max_lr = 0.03
-        else:
+        
 
         self.base_model = base_model
 
