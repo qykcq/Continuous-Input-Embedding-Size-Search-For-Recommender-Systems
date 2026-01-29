@@ -177,33 +177,33 @@ class RecSysEnv:
             ndcgs[5].tolist(), ndcgs[10].tolist(), ndcgs[20].tolist()
         )
 
-    def compute_metrics_user(self, y_pred, sampled_users, sampled_items):
-        # convert matrix to array
-        y_pred = np.asarray(y_pred)
-        recalls_20, ndcgs_20, recalls_10, \
-            ndcgs_10, recalls_5, ndcgs_5 = [], [], [], [], [], []
-        for user_id in sampled_users:
-            assert self.dataset.user_vocab[user_id] == user_id
-            total = np.sum(self.dataset.y_true[user_id][sampled_items])
-            user_pos = np.asarray(sampled_users == user_id).nonzero()
-            assert len(user_pos[0]) == 1
-            user_pos = user_pos[0][0]
-            assert self.dataset.y_true[user_id][sampled_items].shape == y_pred[user_pos].shape
-            zipped = sorted(
-                list(zip(self.dataset.y_true[user_id][sampled_items], y_pred[user_pos])),
-                key=lambda tup: tup[1],
-                reverse=True
-            )
-            recalls_20.append(recall_at_k(zipped, total, k=20))
-            recalls_10.append(recall_at_k(zipped, total, k=10))
-            recalls_5.append(recall_at_k(zipped, total, k=5))
+    # def compute_metrics_user(self, y_pred, sampled_users, sampled_items):
+    #     # convert matrix to array
+    #     y_pred = np.asarray(y_pred)
+    #     recalls_20, ndcgs_20, recalls_10, \
+    #         ndcgs_10, recalls_5, ndcgs_5 = [], [], [], [], [], []
+    #     for user_id in sampled_users:
+    #         assert self.dataset.user_vocab[user_id] == user_id
+    #         total = np.sum(self.dataset.y_true[user_id][sampled_items])
+    #         user_pos = np.asarray(sampled_users == user_id).nonzero()
+    #         assert len(user_pos[0]) == 1
+    #         user_pos = user_pos[0][0]
+    #         assert self.dataset.y_true[user_id][sampled_items].shape == y_pred[user_pos].shape
+    #         zipped = sorted(
+    #             list(zip(self.dataset.y_true[user_id][sampled_items], y_pred[user_pos])),
+    #             key=lambda tup: tup[1],
+    #             reverse=True
+    #         )
+    #         recalls_20.append(recall_at_k(zipped, total, k=20))
+    #         recalls_10.append(recall_at_k(zipped, total, k=10))
+    #         recalls_5.append(recall_at_k(zipped, total, k=5))
 
-            ideal_rank = np.sort(self.dataset.y_true[user_id][sampled_items])[::-1]
+    #         ideal_rank = np.sort(self.dataset.y_true[user_id][sampled_items])[::-1]
 
-            ndcgs_20.append(ndcg_at_k(zipped, ideal_rank, k=20))
-            ndcgs_10.append(ndcg_at_k(zipped, ideal_rank, k=10))
-            ndcgs_5.append(ndcg_at_k(zipped, ideal_rank, k=5))
-        return process_ranking_metrics(recalls_5, recalls_10, recalls_20, ndcgs_5, ndcgs_10, ndcgs_20)
+    #         ndcgs_20.append(ndcg_at_k(zipped, ideal_rank, k=20))
+    #         ndcgs_10.append(ndcg_at_k(zipped, ideal_rank, k=10))
+    #         ndcgs_5.append(ndcg_at_k(zipped, ideal_rank, k=5))
+    #     return process_ranking_metrics(recalls_5, recalls_10, recalls_20, ndcgs_5, ndcgs_10, ndcgs_20)
 
     def compute_metrics_item(self, y_pred, sampled_items, quality_u):
         y_pred = np.asarray(y_pred)
@@ -225,18 +225,8 @@ class RecSysEnv:
             assert len(quality_u) == len(sampled_users)
             return self.compute_metrics_item(y_pred, sampled_items, quality_u)
         else:
-            t1 = time.time()
-            res1 = self.compute_metrics_user_fast(y_pred, sampled_users, sampled_items)
-            t2 = time.time()
-            print('res1 computation time', t2 - t1)
-            res2 = self.compute_metrics_user(y_pred, sampled_users, sampled_items)
-            t3 = time.time()
-            print('res2 computation time', t3 - t2)
-            print(res1)
-            print('------')
-            print(res2)
-            return res1
-
+            return self.compute_metrics_user_fast(y_pred, sampled_users, sampled_items)
+          
     def step(self, actions_u, actions_i, sampled_users, sampled_items):
         self.renew_recommender(actions_u, actions_i)
         sparsity = self.agent.calc_sparsity()
@@ -325,7 +315,6 @@ class RecSysEnv:
 
     def train_n_batches(self, batches, sampled_users, sampled_items, verbose=0):
         for e in range(batches):
-            print('batch', e)
             loss, mf_loss, emb_loss = self.train_one_batch()
             if (e + 1) % self.decay_batches == 0:
                 self.optimizer.param_groups[0]['lr'] = max(self.min_lr, 0.9 * self.optimizer.param_groups[0]['lr'])
