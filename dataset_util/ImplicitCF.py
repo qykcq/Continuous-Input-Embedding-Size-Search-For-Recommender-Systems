@@ -98,6 +98,7 @@ class ImplicitCF(object):
         self.item_vocab = list(set(self.item_idx['itemID_idx'].values))
         if self.dataset_type == 'yelp':
             try:
+                print('try loading', 'y_true_{}_{}.pkl'.format(dataset, config.SEED))
                 with open('y_true_{}_{}.pkl'.format(dataset, config.SEED), 'rb') as f:
                     self.y_true = pickle.load(f)
             except:
