@@ -272,8 +272,9 @@ def train_ddpg(_lambda, base_model, dataset, noise_type, visualisation=True):
         print('=' * 30 + 'episode ' + str(ep) + '=' * 30)
         print('##################### TRAIN #####################')
         ou_noise = OUActionNoise(mean=np.zeros(1), std_deviation=config.OU_STD_DEV)
+        ep_start = time.time()
         for loop in range(config.T):
-            start = time.perf_counter()
+            start = time.time()
             print('{}ep: {}, loop:{}{}'.format('-' * 10, ep, loop, '-' * 10))
             if noise_type == 'normal':
                 noise = np.random.normal(0, 6)
@@ -318,9 +319,10 @@ def train_ddpg(_lambda, base_model, dataset, noise_type, visualisation=True):
                     (mean_reward_u + mean_reward_i) / 2],
                     rl_history
                 )
-            elapsed = time.perf_counter() - start
+            elapsed = time.time() - start
             print(f"Loop elapsed time: {elapsed:.6f} seconds")
-
+        ep_elapsed = time.time() - ep_start
+        print(f"Episode elapsed time: {ep_elapsed:.6f} seconds")
         # data visualisation
         # if ep == config.M - 1 and visualisation:
         #    visualise_data(rl_history)
