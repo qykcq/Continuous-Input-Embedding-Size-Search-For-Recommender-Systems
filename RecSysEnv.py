@@ -117,6 +117,65 @@ class RecSysEnv:
         self.optimizer = optim.Adam(self.agent.parameters(), lr=self.max_lr, weight_decay=wd)
         self._lambda = _lambda
 
+    def compute_metrics_user_fast(self, y_pred, sampled_users, sampled_items, ks=(5, 10, 20)):
+        y_pred = np.asarray(y_pred)  # shape: [num_users, num_items]
+        sampled_users = np.asarray(sampled_users)
+        sampled_items = np.asarray(sampled_items)
+    
+        max_k = max(ks)
+        num_users = len(sampled_users)
+    
+        # Precompute discount factors for DCG
+        discounts = 1.0 / np.log2(np.arange(2, max_k + 2))  # length max_k
+    
+        recalls = {k: np.empty(num_users, dtype=np.float64) for k in ks}
+        ndcgs   = {k: np.empty(num_users, dtype=np.float64) for k in ks}
+    
+        # Optional: if y_true is a big numpy 2D array, this is fast:
+        # y_true_sub = self.dataset.y_true[sampled_users][:, sampled_items]
+        # But your dataset seems like per-user vectors, so keep per-user indexing below.
+    
+        for row_idx, user_id in enumerate(sampled_users):
+            # relevance for this user on sampled_items
+            rel = np.asarray(self.dataset.y_true[user_id][sampled_items])  # shape [num_items]
+            scores = y_pred[row_idx]
+            assert rel.shape == scores.shape
+    
+            total_pos = float(rel.sum())
+            if total_pos <= 0:
+                # define metrics as 0 if no positives in candidate set
+                for k in ks:
+                    recalls[k][row_idx] = 0.0
+                    ndcgs[k][row_idx] = 0.0
+                continue
+    
+            # Get indices of top max_k items (unordered), then sort them by score desc
+            top_idx = np.argpartition(scores, -max_k)[-max_k:]
+            top_idx = top_idx[np.argsort(scores[top_idx])[::-1]]  # now ordered
+    
+            top_rel = rel[top_idx].astype(np.float64)  # relevance in ranked order
+    
+            # prefix sums let us get Recall@K quickly
+            cumsum_rel = np.cumsum(top_rel)  # length max_k
+    
+            # DCG prefix sums
+            dcg_prefix = np.cumsum(top_rel * discounts)  # length max_k
+    
+            for k in ks:
+                hit_k = cumsum_rel[k - 1]
+                recalls[k][row_idx] = hit_k / total_pos
+    
+                # IDCG@k for binary relevance
+                ideal_len = int(min(total_pos, k))
+                idcg = discounts[:ideal_len].sum()
+                ndcgs[k][row_idx] = (dcg_prefix[k - 1] / idcg) if idcg > 0 else 0.0
+    
+        # Match your existing return format
+        return process_ranking_metrics(
+            recalls[5].tolist(), recalls[10].tolist(), recalls[20].tolist(),
+            ndcgs[5].tolist(), ndcgs[10].tolist(), ndcgs[20].tolist()
+        )
+
     def compute_metrics_user(self, y_pred, sampled_users, sampled_items):
         # convert matrix to array
         y_pred = np.asarray(y_pred)
@@ -165,7 +224,12 @@ class RecSysEnv:
             assert len(quality_u) == len(sampled_users)
             return self.compute_metrics_item(y_pred, sampled_items, quality_u)
         else:
-            return self.compute_metrics_user(y_pred, sampled_users, sampled_items)
+            res1 = self.compute_metrics_user_fast(y_pred, sampled_users, sampled_items)
+            res2 = self.compute_metrics_user(y_pred, sampled_users, sampled_items)
+            print(res1)
+            print('------')
+            print(res2)
+            return res1
 
     def step(self, actions_u, actions_i, sampled_users, sampled_items):
         self.renew_recommender(actions_u, actions_i)
