@@ -269,6 +269,7 @@ class RecSysEnv:
         user_metrics = self.compute_ranking_metrics(y_pred, 'user', sampled_users, sampled_items)
         item_metrics = self.compute_ranking_metrics(y_pred, 'item', sampled_users, sampled_items,
                                                     quality_u=user_metrics)
+        print('evaluation completed')
         return user_metrics, item_metrics
 
     def renew_recommender(self, user_sizes, item_sizes):
