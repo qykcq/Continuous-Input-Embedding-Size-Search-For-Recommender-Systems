@@ -171,7 +171,11 @@ class ImplicitCF(object):
             np.repeat(self.user_vocab, len(self.item_vocab)),
             np.tile(self.item_vocab, len(self.user_vocab))
         ]
+        count = 0
         for user_id, item_id in zip(X_ranking[0], X_ranking[1]):
+            if count % 50000 == 0:
+                print('creating y_true progress: ', count / len(X_ranking[0]))
+            count += 1
             if (user_id, item_id) in positive_pairs:
                 user_pos = np.asarray(self.user_vocab == user_id).nonzero()
                 assert len(user_pos[0]) == 1
