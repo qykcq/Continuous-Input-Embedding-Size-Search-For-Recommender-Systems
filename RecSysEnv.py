@@ -82,6 +82,8 @@ class RecSysEnv:
             self.n_batches = 2000
             if self.dataset.dataset_type == 'yelp':
                 self.n_batches = 4000
+
+            self.n_batches = 2
             self.min_lr = 1e-3
             self.max_lr = 0.03
         elif base_model == 'mlp':
