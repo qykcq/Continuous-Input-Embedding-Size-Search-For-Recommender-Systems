@@ -255,6 +255,7 @@ class RecSysEnv:
 
     def train_n_batches(self, batches, sampled_users, sampled_items, verbose=0):
         for e in range(batches):
+            print('batch', e)
             loss, mf_loss, emb_loss = self.train_one_batch()
             if (e + 1) % self.decay_batches == 0:
                 self.optimizer.param_groups[0]['lr'] = max(self.min_lr, 0.9 * self.optimizer.param_groups[0]['lr'])
