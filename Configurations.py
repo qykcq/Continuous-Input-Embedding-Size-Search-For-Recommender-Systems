@@ -14,7 +14,7 @@ SAMPLING_RATIO_USER = 1.0
 SAMPLING_RATIO_ITEM = 1.0
 MAX_PATIENCE = 2
 GPU = torch.cuda.is_available()
-device = torch.device('cuda' if GPU else "cpu")
+device = torch.device('cuda:1' if GPU else "cpu")
 SEED = 42
 M = 30
 
