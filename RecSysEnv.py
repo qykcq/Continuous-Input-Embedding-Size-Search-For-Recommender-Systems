@@ -70,37 +70,37 @@ class RecSysEnv:
         wd = 0
         if base_model == 'ngcf':
             self.agent = NGCF(dataset, self.user_sizes, self.item_sizes).to(config.device)
-            self.decay_batches = 10
-            self.n_batches = 300
+            self.decay_batches = 100
+            self.n_batches = 3000
             if self.dataset.dataset_type == 'yelp':
-                self.n_batches = 500
+                self.n_batches = 5000
             self.min_lr = 1e-3
             self.max_lr = 0.03
         elif base_model == 'lightgcn':
             self.agent = LightGCN(dataset, self.user_sizes, self.item_sizes, retrain=retrain).to(config.device)
-            self.decay_batches = 20
-            self.n_batches = 200
-            # if self.dataset.dataset_type == 'yelp':
-            #     self.n_batches = 4000
+            self.decay_batches = 200
+            self.n_batches = 2000
+            if self.dataset.dataset_type == 'yelp':
+                self.n_batches = 4000
             self.min_lr = 1e-3
             self.max_lr = 0.03
         elif base_model == 'mlp':
             self.agent = MLP(dataset, self.user_sizes, self.item_sizes).to(config.device)
-            self.decay_batches = 10
-            self.n_batches = 300
+            self.decay_batches = 100
+            self.n_batches = 3000
             self.min_lr = 1e-3
             self.max_lr = 0.03
             wd = 1e-5
         elif base_model == 'ncf':
             self.agent = NeuMF(dataset, self.user_sizes, self.item_sizes).to(config.device)
             self.decay_batches = 50  # do not change!
-            self.n_batches = 150
+            self.n_batches = 1500
             if self.dataset.dataset_type == 'yelp':
-                self.n_batches = 300
+                self.n_batches = 3000
             self.min_lr = 1e-4  # do not change!
             self.max_lr = 0.03
         else:
-            raise ValueError('Invalid choice of base model!')
+
         self.base_model = base_model
 
         self.user_qualities = np.zeros(len(dataset.user_vocab))
