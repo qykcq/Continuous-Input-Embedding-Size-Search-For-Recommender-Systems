@@ -264,6 +264,7 @@ class RecSysEnv:
         return val
 
     def eval_rec(self, sampled_users, sampled_items):
+        print('evaluating the model')
         y_pred = self.get_y_pred(sampled_users, sampled_items)
         user_metrics = self.compute_ranking_metrics(y_pred, 'user', sampled_users, sampled_items)
         item_metrics = self.compute_ranking_metrics(y_pred, 'item', sampled_users, sampled_items,
