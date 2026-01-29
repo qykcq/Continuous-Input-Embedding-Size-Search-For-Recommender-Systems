@@ -174,7 +174,7 @@ class ImplicitCF(object):
         ]
         count = 0
         for user_id, item_id in zip(X_ranking[0], X_ranking[1]):
-            if count % 50000 == 0:
+            if count % 500000 == 0:
                 print('creating y_true progress: ', count / len(X_ranking[0]))
             count += 1
             if (user_id, item_id) in positive_pairs:
