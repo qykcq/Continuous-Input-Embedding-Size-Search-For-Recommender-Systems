@@ -16,7 +16,7 @@ MAX_PATIENCE = 2
 GPU = torch.cuda.is_available()
 device = torch.device('cuda:1' if GPU else "cpu")
 SEED = 42
-M = 30
+M = 3
 
 # Default column names
 DEFAULT_USER_COL = "userID"
