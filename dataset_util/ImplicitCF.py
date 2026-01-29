@@ -101,7 +101,8 @@ class ImplicitCF(object):
                 print('try loading', 'y_true_{}_{}.pkl'.format(dataset, config.SEED))
                 with open('y_true_{}_{}.pkl'.format(dataset, config.SEED), 'rb') as f:
                     self.y_true = pickle.load(f)
-            except:
+            except Exception as e:
+                print(e)
                 with open('y_true_{}_{}.pkl'.format(dataset, config.SEED), 'wb') as f:
                     self.y_true = self.get_y_true(self.positive_validation_pairs)
                     pickle.dump(self.y_true, f, protocol=pickle.HIGHEST_PROTOCOL)
