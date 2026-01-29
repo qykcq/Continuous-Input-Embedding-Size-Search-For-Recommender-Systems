@@ -93,7 +93,7 @@ class RecSysEnv:
             wd = 1e-5
         elif base_model == 'ncf':
             self.agent = NeuMF(dataset, self.user_sizes, self.item_sizes).to(config.device)
-            self.decay_batches = 50  # do not change!
+            self.decay_batches = 50  
             self.n_batches = 1500
             if self.dataset.dataset_type == 'yelp':
                 self.n_batches = 3000
