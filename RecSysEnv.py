@@ -7,6 +7,7 @@ from base_models.NCF import NeuMF
 import Configurations as config
 import torch.optim as optim
 import torch
+import time 
 
 
 def recall_at_k(zipped, total, k):
@@ -224,8 +225,13 @@ class RecSysEnv:
             assert len(quality_u) == len(sampled_users)
             return self.compute_metrics_item(y_pred, sampled_items, quality_u)
         else:
+            t1 = time.time()
             res1 = self.compute_metrics_user_fast(y_pred, sampled_users, sampled_items)
+            t2 = time.time()
+            print('res1 computation time', t2 - t1)
             res2 = self.compute_metrics_user(y_pred, sampled_users, sampled_items)
+            t3 = time.time()
+            print('res2 computation time', t3 - t2)
             print(res1)
             print('------')
             print(res2)
