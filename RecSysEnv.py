@@ -327,7 +327,7 @@ class RecSysEnv:
     def eval_rec(self, sampled_users, sampled_items):
         t1 = time.time()
         y_pred = self.get_y_pred(sampled_users, sampled_items)
-        print('Time used for computing y_pred': time.time() - t1)
+        print('Time used for computing y_pred', time.time() - t1)
         user_metrics = self.compute_ranking_metrics(y_pred, 'user', sampled_users, sampled_items)
         item_metrics = self.compute_ranking_metrics(y_pred, 'item', sampled_users, sampled_items,
                                                     quality_u=user_metrics)
