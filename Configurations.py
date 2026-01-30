@@ -8,7 +8,7 @@ MIN_EMB_SIZE = 1
 RANDOM_WALK_STEPS = 5
 SAMPLE_SIZE = 1024 * 4
 STATE_SIZE = 3
-T = 5
+T = 11
 ACTION_SIZE = 1
 SAMPLING_RATIO_USER = 1.0
 SAMPLING_RATIO_ITEM = 1.0
@@ -16,7 +16,7 @@ MAX_PATIENCE = 2
 GPU = torch.cuda.is_available()
 device = torch.device('cuda:1' if GPU else "cpu")
 SEED = 42
-M = 1
+M = 30
 
 # Default column names
 DEFAULT_USER_COL = "userID"
