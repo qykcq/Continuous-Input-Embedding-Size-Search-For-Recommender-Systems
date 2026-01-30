@@ -80,7 +80,7 @@ class RecSysEnv:
         elif base_model == 'lightgcn':
             self.agent = LightGCN(dataset, self.user_sizes, self.item_sizes, retrain=retrain).to(config.device)
             self.decay_batches = 200
-            self.n_batches = 2000
+            self.n_batches = 2
             # if self.dataset.dataset_type == 'yelp':
             #     self.n_batches = 4000
             self.n_batches = 2
@@ -325,7 +325,9 @@ class RecSysEnv:
         return val
 
     def eval_rec(self, sampled_users, sampled_items):
+        t1 = time.time()
         y_pred = self.get_y_pred(sampled_users, sampled_items)
+        print('Time used for computing y_pred': time.time() - t1)
         user_metrics = self.compute_ranking_metrics(y_pred, 'user', sampled_users, sampled_items)
         item_metrics = self.compute_ranking_metrics(y_pred, 'item', sampled_users, sampled_items,
                                                     quality_u=user_metrics)
