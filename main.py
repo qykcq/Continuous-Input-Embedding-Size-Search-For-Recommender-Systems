@@ -12,10 +12,10 @@ assert config.MAX_PATIENCE == 2
 assert config.SAMPLING_RATIO_USER == 1.0
 assert config.SAMPLING_RATIO_ITEM == 1.0
 
-for dataset_name in ['ml-1m', 'yelp']:
-    data = initialize_dataset(model, dataset_name)
-    data.switch_to_test_mode()
-    goals = train_ddpg(_lambda=_lambda, base_model=model, visualisation=False, noise_type=noise, dataset=data)
+dataset_name = 'ml-1m'
+data = initialize_dataset(model, dataset_name)
+goals = train_ddpg(_lambda=_lambda, base_model=model, visualisation=False, noise_type=noise, dataset=data)
+data.switch_to_test_mode()
     
 
 # run this to retrain the recommenders to get the final recommendation performance
